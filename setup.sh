@@ -12,14 +12,16 @@ then
     exit 1
 fi
 
-read -p "Do you want to authenticate with DigitalOcean container registry? [y/N]: " AUTHENTICATE
+read -p "Do you want to authenticate with GitHub container registry? [y/N]: " AUTHENTICATE
 
 if [ "$AUTHENTICATE" == "y" ]; then
-    read -sp "Enter the DigitalOcean access token " DIGITALOCEAN_ACCESS_TOKEN
+    read -p "Enter the GitHub username: " GITHUB_USERNAME
+    read -sp "Enter the GitHub personal access token (read:packages): " GITHUB_TOKEN
+    echo ""
 
-    docker login -u rohit@lascade.com -p "$DIGITALOCEAN_ACCESS_TOKEN" registry.digitalocean.com
+    echo "$GITHUB_TOKEN" | docker login -u "$GITHUB_USERNAME" --password-stdin ghcr.io
 
-    echo -e "${COLOR_GREEN}Authenticated with DigitalOcean container registry.${NO_COLOR}"
+    echo -e "${COLOR_GREEN}Authenticated with GitHub container registry.${NO_COLOR}"
 fi
 
 read -p "Do you want to setup deployment scripts? [y/N]: " SETUP_DEPLOYMENT
